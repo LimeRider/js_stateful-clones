@@ -8,7 +8,7 @@
  */
 function transformStateWithClones(state, actions) {
   const stateHistory = [];
-  let currentState = state;
+  let currentState = { ...state };
 
   for (const action of actions) {
     switch (action.type) {
