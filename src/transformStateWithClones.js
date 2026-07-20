@@ -8,7 +8,7 @@
  */
 function transformStateWithClones(state, actions) {
   const stateHistory = [];
-  let currentState = { ...state };
+  let currentState = state;
 
   for (const action of actions) {
     switch (action.type) {
@@ -17,11 +17,13 @@ function transformStateWithClones(state, actions) {
         break;
 
       case 'removeProperties':
-        currentState = { ...currentState };
+        currentState = Object.keys(currentState).reduce((newState, key) => {
+          if (!action.keysToRemove.includes(key)) {
+            newState[key] = currentState[key];
+          }
 
-        for (const key of action.keysToRemove) {
-          delete currentState[key];
-        }
+          return newState;
+        }, {});
         break;
 
       case 'clear':
